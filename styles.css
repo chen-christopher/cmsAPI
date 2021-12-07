@@ -44,3 +44,14 @@ body,
 .projectDescription {
   font-size: 1.2rem;
 }
+
+.project2 {
+  height: 60%;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+.project2Text {
+  font-size: 1.5rem;
+  margin-top: 1vh;
+  margin-bottom: 1vh;
+}

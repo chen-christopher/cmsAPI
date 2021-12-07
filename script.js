@@ -11,6 +11,7 @@ const app = {
     // first make sure we have our template loaded
     // i can use the word await along with async to pause the program until this function is finished
     const template = await app.loadTemplate();
+    const template2 = await app.loadTemplate2();
     // fetch all entries
     app.client.getEntries().then((response) => {
       console.log("here 1");
@@ -20,22 +21,38 @@ const app = {
         // pull out the data you're interested in
         console.log(project);
         console.log("here");
-        const projectData = {
-          firstName: project.fields.firstName,
-          lastName: project.fields.lastName,
-          imageUrl: `http:${project.fields.image.fields.file.url}`,
-          imageTitle: project.fields.image.fields.title,
-          imageDescription: project.fields.image.fields.description,
-        };
-        console.log(projectData);
-        const rendered = Mustache.render(template, projectData);
+        if (project.fields.firstName) {
+          const projectData = {
+            firstName: project.fields.firstName,
+            lastName: project.fields.lastName,
+            imageUrl: `http:${project.fields.image.fields.file.url}`,
+            imageTitle: project.fields.image.fields.title,
+            imageDescription: project.fields.image.fields.description,
+          };
+          console.log(projectData);
+          const rendered = Mustache.render(template, projectData);
+          $(".container1").append(rendered);
+        } else {
+          const project2Data = {
+            facts: project.fields.facts,
+            rating: project.fields.rating,
+            review: project.fields.review,
+          };
+          console.log(project2Data);
+          const rendered = Mustache.render(template2, project2Data);
+          $(".container2").append(rendered);
+        }
+
         // add the element to the container
-        $(".container").append(rendered);
       });
     });
   },
   loadTemplate: () =>
     fetch("homeProject.mustache")
+      .then((response) => response.text())
+      .then((template) => template),
+  loadTemplate2: () =>
+    fetch("secondProject.mustache")
       .then((response) => response.text())
       .then((template) => template),
 };
